@@ -31,6 +31,8 @@
 
 - (NSString *)trimWhiteSpaces;
 
-- (NSString *)URLEscapedString;
+- (NSString *)escapeURL;
+
+- (NSString *)escapeHTMLEntities;
 
 @end

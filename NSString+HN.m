@@ -46,7 +46,7 @@
   return [self stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 }
 
-- (NSString *)URLEscapedString {
+- (NSString *)escapeURL {
   static NSString *const charactersToBeEscaped = @"!*'();:@&=+$,/?%#[]";
 
   return (__bridge_transfer NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
@@ -54,6 +54,18 @@
                                                                                NULL,
                                                                                (__bridge CFStringRef)charactersToBeEscaped,
                                                                                kCFStringEncodingUTF8);
+}
+
+- (NSString *)escapeHTMLEntities {
+  NSMutableString *tmp = [self mutableCopy];
+  [tmp replaceOccurrencesOfString:@"&" withString:@"&amp;" options:0 range:NSMakeRange(0, tmp.length)];
+  [tmp replaceOccurrencesOfString:@"<" withString:@"&lt;" options:0 range:NSMakeRange(0, tmp.length)];
+  [tmp replaceOccurrencesOfString:@">" withString:@"&gt;" options:0 range:NSMakeRange(0, tmp.length)];
+  [tmp replaceOccurrencesOfString:@"""" withString:@"&quot;" options:0 range:NSMakeRange(0, tmp.length)];
+  [tmp replaceOccurrencesOfString:@"'" withString:@"&#039;" options:0 range:NSMakeRange(0, tmp.length)];
+  [tmp replaceOccurrencesOfString:@" " withString:@"&nbsp;" options:0 range:NSMakeRange(0, tmp.length)];
+
+  return tmp;
 }
 
 @end
