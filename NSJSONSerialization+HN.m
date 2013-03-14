@@ -31,8 +31,6 @@
 
 + (id)JSONObjectWithString:(NSString *)string options:(NSJSONReadingOptions)opt error:(NSError **)error {
   NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
-  data = [data subdataWithRange:NSMakeRange(0, data.length - 1)]; // remove trailing \0
-  
   return [NSJSONSerialization JSONObjectWithData:data options:opt error:error];
 }
 
