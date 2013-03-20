@@ -29,18 +29,11 @@
 
 @implementation NSJSONSerialization (HN)
 
-+ (id)JSONObjectWithString:(NSString *)string options:(NSJSONReadingOptions)opt error:(NSError **)error {
-  NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
-  return [NSJSONSerialization JSONObjectWithData:data options:opt error:error];
-}
-
 + (NSString *)stringWithJSONObject:(id)obj options:(NSJSONWritingOptions)opt error:(NSError **)error {
   NSData *data = [NSJSONSerialization dataWithJSONObject:obj options:opt error:error];
   if (*error)
     return nil;
   
-  return [[NSString alloc] initWithBytes:data.bytes 
-                                   length:data.length
-                                 encoding:NSUTF8StringEncoding];
+  return [[NSString alloc] initWithBytes:data.bytes length:data.length encoding:NSUTF8StringEncoding];
 }
 @end

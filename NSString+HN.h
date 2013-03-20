@@ -28,11 +28,9 @@
 @interface NSString (HN)
 
 - (BOOL)isValidEmail;
-
 - (NSString *)trimWhiteSpaces;
-
 - (NSString *)escapeURL;
-
 - (NSString *)escapeHTMLEntities;
+- (id)JSONObjectWithOptions:(NSJSONReadingOptions)opt error:(NSError **)error;
 
 @end

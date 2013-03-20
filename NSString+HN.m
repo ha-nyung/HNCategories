@@ -68,4 +68,9 @@
   return tmp;
 }
 
+- (id)JSONObjectWithOptions:(NSJSONReadingOptions)opt error:(NSError **)error {
+  NSData *data = [self dataUsingEncoding:NSUTF8StringEncoding];
+  return [NSJSONSerialization JSONObjectWithData:data options:opt error:error];
+}
+
 @end
