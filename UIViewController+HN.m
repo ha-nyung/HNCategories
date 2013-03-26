@@ -1,5 +1,5 @@
 //
-//  NSUserDefaults+HN.m
+//  UIViewController+HN.m
 //  HNCategories
 //
 // This is under The MIT License
@@ -25,25 +25,12 @@
 // SOFTWARE.
 //
 
-#import "NSUserDefaults+HN.h"
+#import "UIViewController+HN.h"
 
-@implementation NSUserDefaults (HN)
+@implementation UIViewController (HN)
 
-- (void)asyncSaveValue:(id)value forKey:(NSString *)key
-{
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self setValue:value forKey:key];
-        [self synchronize];
-    });
-}
-
-- (void)asyncSaveDictionary:(NSDictionary *)dict
-{
-    dispatch_async(dispatch_get_main_queue(), ^{
-        for (NSString *key in dict.allKeys)
-            [self setValue:[dict valueForKey:key] forKey:key];
-        [self synchronize];
-    });
+- (BOOL)isViewVisible {
+    return self.isViewLoaded && self.view.window;
 }
 
 @end
