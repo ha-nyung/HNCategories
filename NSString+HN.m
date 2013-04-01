@@ -42,7 +42,7 @@
   return [emailPredicate evaluateWithObject:self];
 }
 
-- (NSString *)trimWhiteSpaces {
+- (NSString *)stringByTrimmingWhiteSpaces {
   return [self stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 }
 
@@ -73,4 +73,11 @@
   return [NSJSONSerialization JSONObjectWithData:data options:opt error:error];
 }
 
+BOOL NSStringIsEmpty(NSString *string) {
+  return [[string stringByTrimmingWhiteSpaces] length] == 0;
+}
+
+BOOL NSStringIsNotEmpty(NSString *string) {
+  return !NSStringIsEmpty(string);
+}
 @end
