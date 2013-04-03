@@ -31,6 +31,7 @@
 - (NSString *)stringByTrimmingWhiteSpaces;
 - (NSString *)escapeURL;
 - (NSString *)escapeHTMLEntities;
+- (NSDictionary *)parseQueryString;
 - (id)JSONObjectWithOptions:(NSJSONReadingOptions)opt error:(NSError **)error;
 
 BOOL NSStringIsEmpty(NSString *string);

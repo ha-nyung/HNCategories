@@ -73,6 +73,19 @@
   return [NSJSONSerialization JSONObjectWithData:data options:opt error:error];
 }
 
+- (NSDictionary *)parseQueryString {
+  NSMutableDictionary *qs = [NSMutableDictionary dictionary];
+
+  for (NSString *component in [self componentsSeparatedByString:@"&"]) {
+    NSArray *pair = [component componentsSeparatedByString:@"="];
+    NSString *key = pair[0];
+    NSString *value = [(NSString *)pair[1] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    [qs setValue:value forKey:key];
+  }
+
+  return [NSDictionary dictionaryWithDictionary:qs];
+}
+
 BOOL NSStringIsEmpty(NSString *string) {
   return [[string stringByTrimmingWhiteSpaces] length] == 0;
 }
