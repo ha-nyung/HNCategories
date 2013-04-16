@@ -31,5 +31,7 @@
 
 - (void)asyncSaveValue:(id)value forKey:(NSString *)key;
 - (void)asyncSaveDictionary:(NSDictionary *)dict;
+- (void)archiveAndSaveValue:(id)value forKey:(NSString *)key;
+- (id)loadAndUnarchiveValueForKey:(NSString *)key;
 
 @end

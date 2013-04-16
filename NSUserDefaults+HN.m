@@ -46,4 +46,17 @@
     });
 }
 
+- (void)archiveAndSaveValue:(id)value forKey:(NSString *)key
+{
+    [self asyncSaveValue:[NSKeyedArchiver archivedDataWithRootObject:value] forKey:key];
+}
+
+- (id)loadAndUnarchiveValueForKey:(NSString *)key
+{
+    NSData *data = [self valueForKey:key];
+    if (!data)
+        return nil;
+
+    return [NSKeyedUnarchiver unarchiveObjectWithData:data];
+}
 @end
