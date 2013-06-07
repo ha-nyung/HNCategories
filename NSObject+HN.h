@@ -27,7 +27,7 @@
 
 @interface NSObject (HN)
 
-- (void)performBlock:(void (^)(void))block afterDelay:(NSTimeInterval)delay;
++ (void)performBlock:(void (^)(void))block afterDelay:(NSTimeInterval)delay;
 - (void)enumeratePropertiesUsingBlock:(void (^)(NSString *propertyName))block;
 - (void)setPropertiesFrom:(id)source;
 
