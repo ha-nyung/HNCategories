@@ -78,6 +78,8 @@
 
   for (NSString *component in [self componentsSeparatedByString:@"&"]) {
     NSArray *pair = [component componentsSeparatedByString:@"="];
+    if (pair.count != 2)
+      continue;
     NSString *key = pair[0];
     NSString *value = [(NSString *)pair[1] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     [qs setValue:value forKey:key];
