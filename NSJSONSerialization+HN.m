@@ -31,7 +31,7 @@
 
 + (NSString *)stringWithJSONObject:(id)obj options:(NSJSONWritingOptions)opt error:(NSError **)error {
   NSData *data = [NSJSONSerialization dataWithJSONObject:obj options:opt error:error];
-  if (*error)
+  if ((error && *error) || !data)
     return nil;
   
   return [[NSString alloc] initWithBytes:data.bytes length:data.length encoding:NSUTF8StringEncoding];
