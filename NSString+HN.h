@@ -25,6 +25,9 @@
 // SOFTWARE.
 //
 
+BOOL NSStringIsEmpty(NSString *string);
+BOOL NSStringIsNotEmpty(NSString *string);
+
 @interface NSString (HN)
 
 - (BOOL)isValidEmail;
@@ -34,7 +37,13 @@
 - (NSDictionary *)parseQueryString;
 - (id)JSONObjectWithOptions:(NSJSONReadingOptions)opt error:(NSError **)error;
 
-BOOL NSStringIsEmpty(NSString *string);
-BOOL NSStringIsNotEmpty(NSString *string);
+/**
+ * hashing methods are origianlly implemented by Klaus-Peter Dudas
+ * https://github.com/atreat/NSString-Sha1
+ */
+- (NSString *)md5;
+- (NSString *)sha1;
+- (NSString *)sha256;
+- (NSString *)sha512;
 
 @end
