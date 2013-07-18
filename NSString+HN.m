@@ -29,6 +29,38 @@
 
 #import <CommonCrypto/CommonDigest.h>
 
+BOOL NSStringIsEmpty(NSString *string) {
+    return [[string stringByTrimmingWhiteSpaces] length] == 0;
+}
+
+BOOL NSStringIsNotEmpty(NSString *string) {
+    return !NSStringIsEmpty(string);
+}
+
+static inline NSString *NSStringCCHashFunction(unsigned char *(function)(const void *data, CC_LONG len, unsigned char *md), CC_LONG digestLength, NSString *string) {
+    NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
+    uint8_t digest[digestLength];
+
+    function(data.bytes, (CC_LONG)data.length, digest);
+
+    // Convert to hex (high performance)
+    static const char HexEncodeChars[] = {'0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f'};
+    char *resultData;
+    resultData = malloc(digestLength*2+1);
+
+    for (uint i = 0; i < digestLength; i++) {
+        resultData[i*2]=HexEncodeChars[(digest[i] >> 4)];
+        resultData[i*2+1]=HexEncodeChars[(digest[i] % 0x10)];
+    }
+    resultData[digestLength*2] = 0;
+
+    // Return as a NSString without copying the bytes
+    return [[NSString alloc] initWithBytesNoCopy:resultData
+                                          length:digestLength*2
+                                        encoding:NSASCIIStringEncoding
+                                    freeWhenDone:YES];
+}
+
 @implementation NSString (HN)
 
 - (BOOL)isValidEmail {
@@ -90,80 +122,27 @@
   return [NSDictionary dictionaryWithDictionary:qs];
 }
 
-- (NSString *)md5
-{
-    NSData *data = [self dataUsingEncoding:NSUTF8StringEncoding];
-    uint8_t digest[CC_MD5_DIGEST_LENGTH];
-
-    CC_MD5(data.bytes, (CC_LONG)data.length, digest);
-
-    NSMutableString *output = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH * 2];
-
-    for (int i = 0; i < CC_MD5_DIGEST_LENGTH; i++)
-    {
-        [output appendFormat:@"%02x", digest[i]];
-    }
-
-    return output;
+- (NSString *)md5 {
+    return NSStringCCHashFunction(CC_MD5, CC_MD5_DIGEST_LENGTH, self);
 }
 
-- (NSString *)sha1
-{
-    NSData *data = [self dataUsingEncoding:NSUTF8StringEncoding];
-    uint8_t digest[CC_SHA1_DIGEST_LENGTH];
-
-    CC_SHA1(data.bytes, (CC_LONG)data.length, digest);
-
-    NSMutableString *output = [NSMutableString stringWithCapacity:CC_SHA1_DIGEST_LENGTH * 2];
-
-    for (int i = 0; i < CC_SHA1_DIGEST_LENGTH; i++)
-    {
-        [output appendFormat:@"%02x", digest[i]];
-    }
-
-    return output;
+- (NSString *)sha1 {
+    return NSStringCCHashFunction(CC_SHA1, CC_SHA1_DIGEST_LENGTH, self);
 }
 
-- (NSString *)sha256
-{
-    NSData *data = [self dataUsingEncoding:NSUTF8StringEncoding];
-    uint8_t digest[CC_SHA256_DIGEST_LENGTH];
-
-    CC_SHA256(data.bytes, (CC_LONG)data.length, digest);
-
-    NSMutableString *output = [NSMutableString stringWithCapacity:CC_SHA256_DIGEST_LENGTH * 2];
-
-    for (int i = 0; i < CC_SHA256_DIGEST_LENGTH; i++)
-    {
-        [output appendFormat:@"%02x", digest[i]];
-    }
-
-    return output;
+- (NSString *)sha224 {
+    return NSStringCCHashFunction(CC_SHA224, CC_SHA224_DIGEST_LENGTH, self);
 }
 
-- (NSString *)sha512
-{
-    NSData *data = [self dataUsingEncoding:NSUTF8StringEncoding];
-    uint8_t digest[CC_SHA512_DIGEST_LENGTH];
+- (NSString *)sha256 {
+    return NSStringCCHashFunction(CC_SHA256, CC_SHA256_DIGEST_LENGTH, self);
+}
 
-    CC_SHA512(data.bytes, (CC_LONG)data.length, digest);
-
-    NSMutableString *output = [NSMutableString stringWithCapacity:CC_SHA512_DIGEST_LENGTH * 2];
-
-    for (int i = 0; i < CC_SHA512_DIGEST_LENGTH; i++)
-    {
-        [output appendFormat:@"%02x", digest[i]];
-    }
-
-    return output;
+- (NSString *)sha384 {
+    return NSStringCCHashFunction(CC_SHA384, CC_SHA384_DIGEST_LENGTH, self);
+}
+- (NSString *)sha512 {
+    return NSStringCCHashFunction(CC_SHA512, CC_SHA512_DIGEST_LENGTH, self);
 }
 
 @end
-
-BOOL NSStringIsEmpty(NSString *string) {
-  return [[string stringByTrimmingWhiteSpaces] length] == 0;
-}
-
-BOOL NSStringIsNotEmpty(NSString *string) {
-  return !NSStringIsEmpty(string);
-}

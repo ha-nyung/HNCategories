@@ -38,8 +38,8 @@ BOOL NSStringIsNotEmpty(NSString *string);
 - (id)JSONObjectWithOptions:(NSJSONReadingOptions)opt error:(NSError **)error;
 
 /**
- * hashing methods are origianlly implemented by Klaus-Peter Dudas
- * https://github.com/atreat/NSString-Sha1
+ * hashing methods are origianlly implemented by Justin Swanson
+ * https://github.com/geeksunny/NSStringNSData-Hashes
  */
 - (NSString *)md5;
 - (NSString *)sha1;
