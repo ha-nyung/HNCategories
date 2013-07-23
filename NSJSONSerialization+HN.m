@@ -26,6 +26,7 @@
 //
 
 #import "NSJSONSerialization+HN.h"
+#import "NSString+HN.h"
 
 @implementation NSJSONSerialization (HN)
 
@@ -35,5 +36,12 @@
     return nil;
   
   return [[NSString alloc] initWithBytes:data.bytes length:data.length encoding:NSUTF8StringEncoding];
+}
+
++ (id)JSONObjectWithString:(NSString *)string options:(NSJSONReadingOptions)opt error:(NSError *__autoreleasing *)error {
+    if (!string)
+        return nil;
+
+    return [string JSONObjectWithOptions:opt error:error];
 }
 @end
